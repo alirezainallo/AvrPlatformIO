@@ -11,6 +11,27 @@
 #define EN PB1 				/* Define RW signal pin */
 #define EN PB2 				/* Define Enable signal pin */
 
+typedef enum{
+    CMD_ClearDisplayScreen = 0x01,
+    CMD_ReturnHome = 0x02,
+    CMD_DecrementCursor = 0x04, //shift cursor to left
+    CMD_IncrementCursor = 0x06, // shift cursor to right
+    CMD_ShiftDisplayRight = 0x05,
+    CMD_ShiftDisplayLeft = 0x07,
+    CMD_DisplayOff_CursorOff = 0x08,
+    CMD_DisplayOff_CursorOn = 0x0A,
+    CMD_DisplayOn_CursorOff = 0x0C,
+    CMD_DisplayOn_CursorBlinking = 0x0E,
+    CMD_DisplayOff_CursorBlinking = 0x0F,
+    CMD_ShiftCursorPositionToLeft = 0x10,
+    CMD_ShiftTheCursorPositionToTheRight = 0x14,
+    CMD_ShiftTheEntireDisplayToTheLeft = 0x18,
+    CMD_ShiftTheEntireDisplayToTheRight = 0x1C,
+    CMD_ForceCursorToTheBeginning0 = 0x80, //1st line
+    CMD_ForceCursorToTheBeginning1 = 0x01, //2st line
+    CMD_2LinesAnd_5x7_Matrix = 0x38,
+}lcdCmd_t;
+
 void LCD_Command( unsigned char cmnd );
 void LCD_Char( unsigned char data );
 void LCD_Init (void);
