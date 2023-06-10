@@ -4,9 +4,6 @@
 */
 
 #include "LCD.h"
- 
-
-#define F_CPU 8000000UL			/* Define CPU Frequency e.g. here 8MHz */
 #include <avr/io.h>			/* Include AVR std. library file */
 #include <util/delay.h>			/* Include Delay header file */
 
