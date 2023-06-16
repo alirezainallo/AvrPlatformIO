@@ -112,8 +112,10 @@ sei();
 #endif
 
 void uart_init(void){
-  DDRD &= ~(1 << PD0);
-  DDRD |=  (1 << PD1);
+  DDRD  &= ~(1 << PD0);
+  PORTD &= ~(1 << PD0);
+  DDRD  |=  (1 << PD1);
+  PORTD &= ~(1 << PD1);
   /*
   // // UDR reg for send and receive
   // // UCSRA for flag
