@@ -5,6 +5,7 @@
 #include "DHT11.h"
 #include "timTick.h"
 #include "time_out.h"
+#include "keypad_4x4.h"
 #include "heart_beat.h"
 
 uint16_t temperature_int = 0;
@@ -24,6 +25,7 @@ int main(void){
   heart_beat_init(500);
   heart_beat();
 
+  keypad_init(FALLING_EDGE);
 
   LCD_Init();
   // _delay_ms(50);
@@ -47,7 +49,7 @@ int main(void){
   timeOut(100);
   while(1){
     heart_beat();
-
+    keypad_process();
     timeOut(2000);
 
     /*

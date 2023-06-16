@@ -64,6 +64,7 @@
     "heart_beat.h": "c",
     "main.h": "c",
     "time_out.h": "c",
-    "timtick.h": "c"
+    "timtick.h": "c",
+    "keypad_4x4.h": "c"
   }
 }
