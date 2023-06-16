@@ -19,6 +19,7 @@ void heart_beat_init (uint16_t ms){
 	HEART_BEAT_Dir  |=  (1 << HEART_BEAT_Pin);
 	HEART_BEAT_Port &= ~(1 << HEART_BEAT_Pin);
 	heart_beat_ms = ms;
+	heart_beat();
 }
 
 void heart_beat (void){

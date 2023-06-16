@@ -16,8 +16,13 @@
 // USART Transmitter buffer
 #define TX_BUFFER_SIZE 256
 
+extern size_t rx_len;
+extern char rx_buffer[RX_BUFFER_SIZE];
+extern bool rx_lineReady;
+extern bool rx_buff_overflow;
 
 void uart_init(void);
 void putChar(char c);
+void txSendDataLen(char* data, size_t len);
 
 #endif //_UART_H

@@ -15,23 +15,46 @@ uint16_t humidity_int = 0;
 extern void togglePin(void);
 void timeOut(uint32_t ms);
 
+char rxUart_debug = 0;
+
+/*void setPin(volatile uint8_t* Port, uint8_t Pin, bool level){
+	if(level){
+		*Port |=  (1 << Pin);
+	}
+	else{
+		*Port &= ~(1 << Pin);
+	}
+}
+// PinState PinRead(volatile uint8_t* PIN, uint8_t Pin){
+// 	return (*PIN & (1 << Pin));
+// }
+void send_ch(char ch){
+  _delay_us(104);
+  _delay_us(104);
+  for(uint8_t i = 0; i < 8; i++){
+    setPin(&PORTD, i, ((ch & (1 << i)) != 0));
+    _delay_us(104);
+  }
+  _delay_us(104);
+}*/
 
 
+//"AT+CMGS="09035683914"/r/n"
+//"AT+CNMI=1,2,0,0,0/r/n"
 int main(void){
-
+  // DDRD  |= (1 << PD3);
+  // PORTD |= (1 << PD3);
   
   sei(); //enable global interrupt
   tim1_init();
   heart_beat_init(500);
-  heart_beat();
+  
 
   keypad_init(FALLING_EDGE);
 
   LCD_Init();
   // _delay_ms(50);
   LCD_Clear();
-  
-
   LCD_String_xy(0,0,"Starting...");
   _delay_ms(1000);
   LCD_Clear();
@@ -40,17 +63,29 @@ int main(void){
 
   uart_init();
   _delay_ms(100);
-  putChar('A');
-  _delay_ms(100);
-  putChar('B');
-  _delay_ms(100);
-  putChar('C');
-
-  timeOut(100);
+  // putChar('A');
+  txSendDataLen("Alirezainallo\n", 14);
+  // timeOut(100);
   while(1){
     heart_beat();
     keypad_process();
-    timeOut(2000);
+    // timeOut(2000);
+
+    if(rx_lineReady){
+      rx_buffer[rx_len] = 0;
+      LCD_String_xy(0,0,rx_buffer);
+      // UDR = 'a';
+      // send_ch('a');
+      rx_lineReady = 0;
+      // sei();
+      // static char i = 0;
+      // i++;
+      // if(i == 1){
+      //   putChar('B');
+      // }else if(i == 2){
+      //   putChar('C');
+      // }
+    }
 
     /*
     //call DHT sensor function defined in DHT.c
