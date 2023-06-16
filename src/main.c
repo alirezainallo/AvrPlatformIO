@@ -1,9 +1,11 @@
 #include "main.h"
+#include "adc.h"
+#include "mq5.h"
 #include "uart.h"
+#include "DHT11.h"
 #include "timTick.h"
 #include "time_out.h"
 #include "heart_beat.h"
-#include "DHT11.h"
 
 uint16_t temperature_int = 0;
 uint16_t humidity_int = 0;
@@ -12,30 +14,7 @@ uint16_t humidity_int = 0;
 extern void togglePin(void);
 void timeOut(uint32_t ms);
 
-void adc_init(void){
-  // AREF, Internal Vref turned off
-  DDRA  &= ~(1 << PA4);
-  PORTA &= ~(1 << PA4);
-  ADMUX  |=  0x04 | (1 << REFS0); 
-  ADCSRA |= (1 << ADEN)|(1 << ADIE);
-  ADCSRA |= (1 << ADPS2)|(1 << ADPS1)|(1 << ADPS0);//PreScaler 128
-  // ADCSRA |= (1 << ADSC);//start adc conv
-  // ADCSRA |= (1 << ADCSRA); interrupt flag
-  // ADCW: data reg
-}
-void adc_start(void){
-  ADCSRA |= (1 << ADSC);//start adc conv
-}
-uint16_t adcVal = 0;
-uint16_t count = 0;
-ISR(ADC_vect){
-  adcVal = ADCW;
-  count++;
-  adc_start();
-}
-uint16_t get_adc_value(void){
-  return adcVal;
-}
+
 
 int main(void){
 
@@ -55,8 +34,7 @@ int main(void){
   _delay_ms(1000);
   LCD_Clear();
 
-  adc_init();//adc4
-  adc_start();
+  mq5_init();
 
   uart_init();
   _delay_ms(100);
@@ -98,8 +76,7 @@ void timeOut(uint32_t ms){
   if(nextTick < currTick){
     static char display[16];
     nextTick = currTick + ms;
-    sprintf(display, "MQ5:%d  %d  ", get_adc_value(), count);
-    count = 0;
+    sprintf(display, "MQ5:%d  ", mq5_value());
     LCD_Clear();
     LCD_String_xy(1,0,display);
   }
