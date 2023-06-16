@@ -78,7 +78,7 @@ void timeOut(uint32_t ms){
   if(nextTick < currTick){
     static char display[16];
     nextTick = currTick + ms;
-    sprintf(display, "MQ5:%d  ", mq5_value());
+    sprintf(display, "MQ5:%d  %d  ", mq5_value(), count);
     LCD_Clear();
     LCD_String_xy(1,0,display);
   }

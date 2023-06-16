@@ -15,10 +15,10 @@ void adc_start(void){
   ADCSRA |= (1 << ADSC);//start adc conv
 }
 uint16_t adcVal = 0;
-// uint16_t count = 0;
+uint16_t count = 0;
 ISR(ADC_vect){
   adcVal = ADCW;
-  //count++;
+  count++;
   adc_start();
 }
 uint16_t get_adc_value(void){
