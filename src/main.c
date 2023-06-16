@@ -1,95 +1,79 @@
-#include "LCD.h"
+#include "main.h"
+#include "uart.h"
+#include "timTick.h"
+#include "time_out.h"
+#include "heart_beat.h"
 #include "DHT11.h"
-#include <stdio.h>
-#include <avr/io.h>
-#include <util/delay.h>
-
 
 uint16_t temperature_int = 0;
 uint16_t humidity_int = 0;
-void LCD_print(uint16_t temp, unsigned char cur_count);
+// void LCD_print(uint16_t temp, unsigned char cur_count);
 
-#define BLINK_DDR  DDRA
-#define BLINK_PORT PORTA
-#define BLINK_PINS ((1 << PA0)|(1 << PA2)|(1 << PA4)|(1 << PA6))
+extern void togglePin(void);
+void timeOut(uint32_t ms);
+
+
+
+
+
+
 
 int main(void){
 
+  
+  sei(); //enable global interrupt
+  tim1_init();
+  heart_beat_init(500);
+  heart_beat();
+
+
   LCD_Init();
+  // _delay_ms(50);
   LCD_Clear();
   
-  BLINK_DDR  = 0xFF;
-  BLINK_PORT = 0x00;
 
-  LCD_String_xy(1,0,"slm");
-  LCD_String("slm");
-  LCD_String("slm");
-
-  // char* template = "Temp:   . C     Rh:   . %";
-	// char* error = "Error";
-  // LCD_String_xy(0, 0, template);
+  LCD_String_xy(0,0,"Starting...");
   _delay_ms(1000);
+  LCD_Clear();
 
+  uart_init();
+  _delay_ms(100);
+  putChar('A');
+  _delay_ms(100);
+  putChar('B');
+  _delay_ms(100);
+  putChar('C');
+
+  // timeOut(100);
   while(1){
-    //call DHT sensor function defined in DHT.c
-		// if(dht_GetTempUtil(&temperature_int, &humidity_int) != -1){
-		// 	LCD_print(temperature_int, 7);
-		// 	LCD_print(humidity_int, 21);
-		// }
-		// else{
-    //   LCD_Command(CMD_ForceCursorToTheBeginning1);
-    //   LCD_String_xy (1, 0, error);
-    //   // LCD_Command(CMD_ForceCursorToTheBeginning1);
-    // }
-		// _delay_ms(1500);
+    heart_beat();
 
-    // LCD_String_xy(1, 0, "                ");
-		
-    // BLINK_PORT |=  BLINK_PINS;
-    // _delay_ms(500);
-    // BLINK_PORT &= ~BLINK_PINS;
-    // _delay_ms(500);
+
+    /*
+    //call DHT sensor function defined in DHT.c
+		if(dht_GetTempUtil(&temperature_int, &humidity_int) != -1){
+      char display[16];
+      LCD_Clear();
+      sprintf(display, "Temp: %d C", temperature_int);
+      LCD_String_xy(0, 0, display);
+      sprintf(display, "Rh: %d %c", humidity_int, 0x25);
+      LCD_String_xy(1, 0, display);
+		}
+		else{
+      // LCD_String_xy (1, 0, error);
+    }
+		_delay_ms(1500);*/
   }
 }
 
-//function to convert number values into characters
-void LCD_print(uint16_t temp, unsigned char cur_count){
-	
-	unsigned char ten_count = 0;
-	unsigned char hun_count = 0;
-	while( temp >= 100 ) {
-		hun_count++;
-		temp -= 100;
-	}	
-	
-  LCD_Command(CMD_ReturnHome);
-  for(int i = 0; i < cur_count; i++){
-    LCD_Command(CMD_IncrementCursor);
+
+
+void timeOut(uint32_t ms){
+  static uint32_t nextTick = 0;
+  static uint32_t currTick = 0;
+  currTick = get_currentTick();
+  if(nextTick < currTick){
+    nextTick = currTick + ms;
+    togglePin();
   }
-  LCD_Char(hun_count + '0');
-	// LCD_Cursor(cur_count);
-	// LCD_WriteData(hun_count + '0');
-	// cur_count++;
-	// LCD_Cursor(cur_count);
-  LCD_Command(CMD_IncrementCursor);
-	while( temp >= 10 ) {
-		ten_count++;
-		temp -= 10;
-	}
-	
-	LCD_Char(ten_count + '0');
-	// cur_count++;
-	// LCD_Cursor(cur_count);
-  LCD_Command(CMD_IncrementCursor);
-	
-	// LCD_WriteData('.');
-	// cur_count++;
-	// LCD_Cursor(cur_count);
-  LCD_Char('.');
-  LCD_Command(CMD_IncrementCursor);
-	
-	LCD_Char((unsigned char) temp + '0');
-	
-	// LCD_Cursor(0);
-  LCD_Command(CMD_ReturnHome);
 }

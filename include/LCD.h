@@ -8,7 +8,7 @@
 #define LCD_Dir  DDRB			/* Define LCD data port direction */
 #define LCD_Port PORTB			/* Define LCD data port */
 #define RS PB0				/* Define Register Select pin */
-#define EN PB1 				/* Define RW signal pin */
+#define RW PB1 				/* Define RW signal pin */
 #define EN PB2 				/* Define Enable signal pin */
 
 typedef enum{

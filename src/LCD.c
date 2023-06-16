@@ -16,7 +16,7 @@ typedef enum{
     LCD_UPPER_NIBBLE = 1
 }lcdNibble_t;
 void LCD_WritePin(char *port, uint8_t pin, lcdPinLevel_t level);
-void LCD_WriteReg(char *reg, char data, lcdNibble_t nibble);
+void LCD_WriteReg(volatile uint8_t *reg, char data, lcdNibble_t nibble);
 
 void LCD_Command( unsigned char cmnd )
 {
@@ -96,7 +96,7 @@ void LCD_WritePin(char *port, uint8_t pin, lcdPinLevel_t level){
         *port &= ~(1 << pin);
     }
 }
-void LCD_WriteReg(char *reg, char data, lcdNibble_t nibble){
+void LCD_WriteReg(volatile uint8_t *reg, char data, lcdNibble_t nibble){
     if(nibble){
         *reg = (*reg & 0x0F) | (data & 0xF0); /* upper nibble */
     }

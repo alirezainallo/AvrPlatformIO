@@ -59,6 +59,11 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "files.associations": {
-    "hd44780.h": "c"
+    "hd44780.h": "c",
+    "interrupt.h": "c",
+    "heart_beat.h": "c",
+    "main.h": "c",
+    "time_out.h": "c",
+    "timtick.h": "c"
   }
 }

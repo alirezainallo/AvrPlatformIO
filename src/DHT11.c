@@ -6,9 +6,9 @@
 
 
 //main function that communicates with DHT sensor 
-#if DHT_TYPE == 1
+#if DHT_TYPE == DHT_DHT22
 int8_t dht_GetTemp(uint16_t *temperature, uint16_t *humidity) {
-#elif DHT_TYPE == 0
+#elif DHT_TYPE == DHT_DHT11
 int8_t dht_GetTemp(int8_t *temperature, int8_t *humidity) {
 #endif
 	uint8_t bits[5];
@@ -94,10 +94,11 @@ int8_t dht_GetTemp(int8_t *temperature, int8_t *humidity) {
 }
 
 //function that calls data function read-in
-#if DHT_TYPE == 1
-int8_t dht_GetTempUtil(uint16_t *temperature, uint16_t *humidity) {
-	#elif DHT_TYPE == 0
-	    return dht_GetTempUtil(int8_t *temperature, int8_t *humidity);
-    #endif
-		return dht_GetTemp(temperature, humidity);
+#if DHT_TYPE == DHT_DHT22
+int8_t dht_GetTempUtil(uint16_t *temperature, uint16_t *humidity)
+#elif DHT_TYPE == DHT_DHT11
+int8_t dht_GetTempUtil(int8_t *temperature, int8_t *humidity)
+#endif
+{
+	return dht_GetTemp(temperature, humidity);
 }
