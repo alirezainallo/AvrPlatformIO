@@ -66,6 +66,7 @@
     "time_out.h": "c",
     "timtick.h": "c",
     "keypad_4x4.h": "c",
-    "adc.h": "c"
+    "adc.h": "c",
+    "uart.h": "c"
   }
 }

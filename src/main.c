@@ -39,53 +39,41 @@ void send_ch(char ch){
 }*/
 
 
-//"AT+CMGS="09035683914"/r/n"
 //"AT+CNMI=1,2,0,0,0/r/n"
+//"AT+CMGS="09035683914"/r/n"
+//Res//"+cmt: "+989217791093","","23/06/16,17:29:29+14""
 int main(void){
-  // DDRD  |= (1 << PD3);
-  // PORTD |= (1 << PD3);
+  DDRA  |= (1 << PA3);
+  PORTA |= (1 << PA3);
   
   sei(); //enable global interrupt
+  LCD_Init();
+  LCD_Clear();
+  _delay_ms(50);
+  LCD_String_xy(0, 0, "Starting...");
+  _delay_ms(2000);
+  LCD_Clear();
+
   tim1_init();
+
   heart_beat_init(500);
-  
 
   keypad_init(FALLING_EDGE);
-
-  LCD_Init();
-  // _delay_ms(50);
-  LCD_Clear();
-  LCD_String_xy(0,0,"Starting...");
-  _delay_ms(1000);
-  LCD_Clear();
 
   mq5_init();
 
   uart_init();
   _delay_ms(100);
-  // putChar('A');
-  txSendDataLen("Alirezainallo\n", 14);
+  
+  txSendDataLen("Alireza\n", 8);
+
   // timeOut(100);
   while(1){
     heart_beat();
     keypad_process();
     // timeOut(2000);
 
-    if(rx_lineReady){
-      rx_buffer[rx_len] = 0;
-      LCD_String_xy(0,0,rx_buffer);
-      // UDR = 'a';
-      // send_ch('a');
-      rx_lineReady = 0;
-      // sei();
-      // static char i = 0;
-      // i++;
-      // if(i == 1){
-      //   putChar('B');
-      // }else if(i == 2){
-      //   putChar('C');
-      // }
-    }
+    uart_loop();
 
     /*
     //call DHT sensor function defined in DHT.c

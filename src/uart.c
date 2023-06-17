@@ -1,7 +1,29 @@
 #include "uart.h"
 
+void uart_loop(void){
+   if(rx_lineReady){
+      // rx_ind = 0;
+      // PORTA |= (1 << PA3);
+      rx_buffer[!rx_curr_buffer][rx_len] = 0;
+      LCD_String_xy(1,0,"resid");
+      LCD_String_xy(0,0,rx_buffer[!rx_curr_buffer]);
+      // UDR = 'a';
+      // send_ch('a');
+      rx_lineReady = 0;
+      // sei();
+      // static char i = 0;
+      // i++;
+      // if(i == 1){
+      //   putChar('B');
+      // }else if(i == 2){
+      //   putChar('C');
+      // }
+      // txSendDataLen(" Inallo\n", 8);
+   }
+}
 
-char rx_buffer[RX_BUFFER_SIZE];
+char rx_buffer[2][RX_BUFFER_SIZE];
+bool rx_curr_buffer = false;
 size_t rx_ind = 0;
 size_t rx_len = 0;
 bool rx_lineReady = 0;
@@ -10,16 +32,22 @@ extern char rxUart_debug;
 ISR(USART_RXC_vect)
 {
 cli();
+UCSRA |= (1 << RXC);
 char status,data;
-status=UCSRA;
-data=UDR;
-   if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN))==0){
-      rx_buffer[rx_ind++] = data;
+status = UCSRA;
+data = UDR;
+   if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN)) == 0){
+      rx_buffer[rx_curr_buffer][rx_ind++] = data;
       if(data == '\n'){
+         PORTA &= ~(1 << PA3);
          rx_len = rx_ind - 1;
+         rx_ind = 0;
+
+         rx_curr_buffer = !rx_curr_buffer;
          rx_lineReady = true;
       }
       if(rx_ind < RX_BUFFER_SIZE){
+         rx_ind = 0;
          rx_buff_overflow = true;
       }
       // rxUart_debug = data;
@@ -37,6 +65,7 @@ void txSendData(void);
 ISR(USART_TXC_vect)
 {  
    cli();
+   UCSRA |= (1 << TXC);
    txSendData();
    sei();
 }
@@ -50,24 +79,27 @@ void txSendData(void){
    if(tx_ind < tx_len){
       putChar(tx_buffer[tx_ind++]);
    }
+   else{
+      tx_ind = 0;
+   }
 }
 void txSendDataLen(char* data, size_t len){
-   tx_len = len;
+   tx_len = strlen(data);
    tx_ind = 0;
    memcpy(tx_buffer, data, len);
 
    txSendData();
 }
 void uart_init(void){
-  DDRD  &= ~(1 << PD0);
-  PORTD &= ~(1 << PD0);
-  DDRD  |=  (1 << PD1);
+//   DDRD  &= ~(1 << PD0);
+//   PORTD &= ~(1 << PD0);
+//   DDRD  |=  (1 << PD1);
   
   
   // UDR reg for send and receive
   // UCSRA for flag
   //    UDRE: USART Data Register Empty
-  
+  UCSRA  = 0;
   // UCSRB
   //    RXCIE: RX Complete Interrupt Enable
   //    TXCIE: TX Complete Interrupt Enable
@@ -88,7 +120,7 @@ void uart_init(void){
   //    UBRR11:0: USART Baud Rate Register : 51 for (U2X = 0)
 //   uint8_t UBRRH_tmp = (1 << URSEL)|(1 << 4)|(1 << 5)|(1 << 6)|(0x0F);
   UBRRH = 0x00;
-  UBRRL = 51;
+  UBRRL = 51;//UBRRL = 0x67;
   
 //   UCSRA=(0<<RXC) | (0<<TXC) | (0<<UDRE) | (0<<FE) | (0<<DOR) | (0<<PE) | (1<<U2X) | (0<<MPCM);
 //   UCSRB=(1<<RXCIE) | (1<<TXCIE) | (0<<UDRIE) | (1<<RXEN) | (1<<TXEN) | (0<<UCSZ2) | (0<<RXB8) | (0<<TXB8);
