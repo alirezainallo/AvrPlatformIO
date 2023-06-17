@@ -1,6 +1,8 @@
 #include "main.h"
 #include "adc.h"
 #include "mq5.h"
+#include "RTC.h"
+#include "menu.h"
 #include "uart.h"
 #include "DHT11.h"
 #include "timTick.h"
@@ -8,12 +10,9 @@
 #include "keypad_4x4.h"
 #include "heart_beat.h"
 
-uint16_t temperature_int = 0;
-uint16_t humidity_int = 0;
 // void LCD_print(uint16_t temp, unsigned char cur_count);
 
 extern void togglePin(void);
-void timeOut(uint32_t ms);
 
 char rxUart_debug = 0;
 
@@ -47,34 +46,62 @@ int main(void){
   PORTA |= (1 << PA3);
   
   sei(); //enable global interrupt
-  LCD_Init();
-  LCD_Clear();
-  _delay_ms(50);
-  LCD_String_xy(0, 0, "Starting...");
-  _delay_ms(2000);
-  LCD_Clear();
-
+  
   tim1_init();
 
-  heart_beat_init(500);
-
-  keypad_init(FALLING_EDGE);
-
-  mq5_init();
-
-  uart_init();
-  _delay_ms(100);
+  // txSendDataLen("Alireza\n", 8);
   
-  txSendDataLen("Alireza\n", 8);
+  // char buffer[20];
+	// char* days[7]= {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+  
+
+  menu_init();
 
   // timeOut(100);
   while(1){
+
+    menu_loop();
     heart_beat();
     keypad_process();
+    // dht11_loop();
+    // mq5_loop();
+    
+    
+
+
+    // MQ5
     // timeOut(2000);
 
-    uart_loop();
+    // uart_loop();
 
+    //RTC
+    /*
+        RTC_Read_Clock(0);	// Read clock with second add. i.e location is 0
+    if (hour & TimeFormat12)	
+    {
+      sprintf(buffer, "%02x:%02x:%02x  ", (hour & 0b00011111), minute, second);
+      if(IsItPM(hour)){
+        strcat(buffer, "PM");
+      }
+      else{
+        strcat(buffer, "AM");
+      }
+      // lcd_print_xy(0,0,buffer);
+      LCD_String_xy(0,0,buffer);
+    }
+    else
+    {
+      sprintf(buffer, "%02x:%02x:%02x  ", (hour & 0b00011111), minute, second);
+      // lcd_print_xy(0,0,buffer);
+      LCD_String_xy(0,0,buffer);
+    }
+    RTC_Read_Calendar(3);	// Read calendar with day address i.e location is 3 
+    sprintf(buffer, "%02x/%02x/%02x %3s ", date, month, year,days[day-1]);
+    // lcd_print_xy(1,0,buffer);
+    LCD_String_xy(1,0,buffer);
+    */
+
+    //DHT sensor
     /*
     //call DHT sensor function defined in DHT.c
 		if(dht_GetTempUtil(&temperature_int, &humidity_int) != -1){
@@ -94,15 +121,4 @@ int main(void){
 
 
 
-void timeOut(uint32_t ms){
-  static uint32_t nextTick = 0;
-  static uint32_t currTick = 0;
-  currTick = get_currentTick();
-  if(nextTick < currTick){
-    static char display[16];
-    nextTick = currTick + ms;
-    sprintf(display, "MQ5:%d  %d  ", mq5_value(), count);
-    LCD_Clear();
-    LCD_String_xy(1,0,display);
-  }
-}
+

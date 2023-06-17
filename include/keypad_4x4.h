@@ -36,6 +36,7 @@ and this example recommended(with use "LCD.h"):
 
 #include "main.h"
 #include "LCD.h"
+#include "menu.h"
 
 #define MAX_KEYPAD_ROW	4
 #define MAX_KEYPAD_COL	4
@@ -60,25 +61,25 @@ and this example recommended(with use "LCD.h"):
 #define KEYPAD_R3_PIN  PINC
 #define KEYPAD_R3_Pin  PC4
 
-#define KEYPAD_C0_DIR  DDRC
-#define KEYPAD_C0_PORT PORTC
-#define KEYPAD_C0_PIN  PINC
-#define KEYPAD_C0_Pin  PC3
+#define KEYPAD_C0_DIR  DDRD
+#define KEYPAD_C0_PORT PORTD
+#define KEYPAD_C0_PIN  PIND
+#define KEYPAD_C0_Pin  PD3
 
-#define KEYPAD_C1_DIR  DDRC
-#define KEYPAD_C1_PORT PORTC
-#define KEYPAD_C1_PIN  PINC
-#define KEYPAD_C1_Pin  PC2
+#define KEYPAD_C1_DIR  DDRD
+#define KEYPAD_C1_PORT PORTD
+#define KEYPAD_C1_PIN  PIND
+#define KEYPAD_C1_Pin  PD4
 
-#define KEYPAD_C2_DIR  DDRC
-#define KEYPAD_C2_PORT PORTC
-#define KEYPAD_C2_PIN  PINC
-#define KEYPAD_C2_Pin  PC1
+#define KEYPAD_C2_DIR  DDRD
+#define KEYPAD_C2_PORT PORTD
+#define KEYPAD_C2_PIN  PIND
+#define KEYPAD_C2_Pin  PD5
 
-#define KEYPAD_C3_DIR  DDRC
-#define KEYPAD_C3_PORT PORTC
-#define KEYPAD_C3_PIN  PINC
-#define KEYPAD_C3_Pin  PC0
+#define KEYPAD_C3_DIR  DDRD
+#define KEYPAD_C3_PORT PORTD
+#define KEYPAD_C3_PIN  PIND
+#define KEYPAD_C3_Pin  PD6
 
 
 
@@ -100,5 +101,6 @@ uint8_t get_keypad_value (void);
 void keypad_init (keypad_key_state_t state);
 keypad_key_state_t keypad_state_detect (void);
 
+extern timer_t timer;
 
 #endif //__KEYPAD_4X4_H

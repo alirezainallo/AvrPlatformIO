@@ -4,6 +4,28 @@ uint32_t currentTick = 0;
 uint32_t get_currentTick(void){
   return currentTick;
 }
+// uint8_t ovf_count = 0;
+// uint32_t get_currentTick(void){
+//   return (TCNT1 >> 3); //TCNT1 / 8
+// }
+
+
+// void tim1_init(void){
+//   //cpu clock: 8MHz
+//   TCCR1A = 0;
+//   TCCR1B = (1 << CS12)|(1 << CS10); //1024
+//   // OCR1A  = (int8_t)(((int32_t)8000000/((int32_t)64 * (int32_t)1000))-(int32_t)1);
+//   TIMSK |= (1 << TOIE1);// enable timer interrupt
+//   TIFR  |= (1 << TOV1); // for flag clear
+//   TCNT1  = 0;
+//   ovf_count = 0;
+// }
+// ISR (TIMER1_OVF_vect){
+//   TIFR |= (1 << TOV1);
+//   TCNT1  = 0;
+//   ovf_count++;
+// }
+
 void tim1_init(void){
   //cpu clock: 8MHz
   // WGM12:1, WGM13:0 //CTC TOP is OCR

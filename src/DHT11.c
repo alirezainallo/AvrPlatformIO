@@ -1,8 +1,53 @@
 #include "DHT11.h"
-#include <stdio.h>
-#include <string.h>
-#include <avr/io.h>
-#include <util/delay.h>
+
+#define DHT_TIMEOUT 200
+
+extern menuStat_t get_menuStat(void);
+
+static uint32_t ht11_ms  = 200;
+
+
+
+#if DHT_TYPE == DHT_DHT22
+uint16_t temperature_int = 0;
+uint16_t humidity_int    = 0;
+#elif DHT_TYPE == DHT_DHT11
+int8_t temperature_int = 0;
+int8_t humidity_int    = 0;
+
+#endif
+
+static uint32_t nextTick = 0;
+static uint32_t currTick = 0;
+void dht11_init(uint32_t ms){
+	ht11_ms = ms;
+}
+void dht11_loop(void){
+  currTick = get_currentTick();
+//   if(currTick + ht11_ms > )
+  if(nextTick < currTick){
+	static uint32_t tmp = 0;
+    static char display[17];
+	tmp = currTick + ht11_ms;
+	if(tmp < UINT16_MAX){
+    	nextTick = tmp;
+	}
+	else{
+    	nextTick = tmp - UINT16_MAX;
+	}
+    
+	dht_GetTempUtil(&temperature_int, &humidity_int);
+
+	if(get_menuStat() == menu_mainPage_Stat){
+		LCD_String_xy(0, 2, "  ");
+		LCD_String_xy(0, 10, "  ");
+		sprintf(display, "%d", temperature_int);
+		LCD_String_xy(0, 2, display);
+		sprintf(display, "%d", humidity_int);
+		LCD_String_xy(0, 10, display);
+	}
+  }
+}
 
 
 //main function that communicates with DHT sensor 

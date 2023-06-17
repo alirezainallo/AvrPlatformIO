@@ -67,6 +67,9 @@
     "timtick.h": "c",
     "keypad_4x4.h": "c",
     "adc.h": "c",
-    "uart.h": "c"
+    "uart.h": "c",
+    "mq5.h": "c",
+    "dht11.h": "c",
+    "menu.h": "c"
   }
 }

@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <avr/io.h>
+#include "timTick.h"
 
 //Port where DHT sensor is connected
 #define DHT_DDR  DDRD
@@ -24,14 +25,15 @@
 #define DHT_DHT22 1
 #define DHT_TYPE  DHT_DHT11
 
-//timeout retries
-#define DHT_TIMEOUT 200
+
+void dht11_init(uint32_t ms);
+void dht11_loop(void);
 
 //functions
 #if DHT_TYPE == DHT_DHT11
-    extern int8_t dht_GetTempUtil(int8_t *temperature, int8_t *humidity);
+    int8_t dht_GetTempUtil(int8_t *temperature, int8_t *humidity);
 #elif DHT_TYPE == DHT_DHT22
-    extern int8_t dht_GetTempUtil(uint16_t *temperature, uint16_t *humidity);
+    int8_t dht_GetTempUtil(uint16_t *temperature, uint16_t *humidity);
 #endif
 
 #endif

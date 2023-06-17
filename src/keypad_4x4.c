@@ -19,137 +19,291 @@ typedef enum{
 	PIN_HIGH = 1,
 }PinState;
 
+char lcd_buff[17] = {0};
+timer_t timer = {0};
+
+typedef enum{
+	fill_hour,
+	fill_min,
+	fill_sec,
+}fill_time;
+
+fill_time fill_tim = fill_hour;
 
 uint32_t number = 0;
 
 void keypad_kp_0_9_func (void)
 {
-	// switch(g_menu_state)
-	// {
-	// 	case MENU_MAIN_PAGE:
-	// 	break;
-	// 	case MENU_CHANGE_PF:
-	// 		// TrsQueMes.rq_status  = CH_ENTERED_PF;
-	// 		temp = (number * 10) + get_keypad_value();
-	// 		if(temp <= 100)
-	// 		{
-	// 			number = temp;
-	// 		}
-	// 		// TrsQueMes.entered_PF = number;
-	// 		// osMessageQueuePut(lcdQueueHandle, &TrsQueMes, NULL, 50);
-	// 	break;
-	// 	case MENU_VIEW_DETALES:
-	// 	break;
-	// 	case MENU_RESET_PRODUCTS_NUM:
-	// 	break;
-	// 	default:
-	// 	break;
-	// }
+	switch(get_menuStat()){
+        case menu_starting:
+            break;
+        case menu_mainPage:
+			switch (get_keypad_value())
+			{
+				case 1:
+					set_menu(menu_mainPage_Stat);
+					break;
+				case 2:
+					set_menu(menu_mainPage_Timer);
+					break;
+				case 3:
+					set_menu(menu_mainPage_SetUp);
+					break;
+				default:
+					break;
+			}
+            break;
+		case menu_mainPage_Stat:
+            break;
+        case menu_mainPage_Timer:
+			// get_keypad_value()
+			
+			switch (fill_tim)
+			{
+				case fill_hour:
+					if(((number * 10) + get_keypad_value()) < 24){
+						number = (number * 10) + get_keypad_value();
+						timer.hour = number;
+					}
+					break;
+				case fill_min:
+					if(((number * 10) + get_keypad_value()) < 60){
+						number = (number * 10) + get_keypad_value();
+						timer.min = number;
+					}
+					break;
+				case fill_sec:
+					if(((number * 10) + get_keypad_value()) < 60){
+						number = (number * 10) + get_keypad_value();
+						timer.sec = number;
+					}
+					break;
+			
+				default:
+					break;
+			}
+			sprintf(lcd_buff, "    %02d:%02d:%02d    ", timer.hour, timer.min, timer.sec);
+            LCD_String_xy(1, 0, lcd_buff);
+            break;
+        case menu_mainPage_SetUp:
+            break;
+        case menu_processGsm:
+            break;
+        case menu_displayTime:
+            break;
+        case menu_changeClock:
+            break;
+        case menu_setRtcAlarm:
+            break;
+        case menu_displaySensor:
+            break;
+        default:
+            break;
+    }
 
-	LCD_Char(get_keypad_value() + '0');
+	// LCD_Char(get_keypad_value() + '0');
 	
 	_delay_ms(0); //just for save this func
 }
 void keypad_kp_10_func (void) //kp A   //MENU_CHANGE_PF
 {
-// menu_MessageQueue_t TrsQueMes;
+	switch(get_menuStat()){
+        case menu_starting:
+            break;
+        case menu_mainPage:
+            break;
+		case menu_mainPage_Stat:
+            break;
+        case menu_mainPage_Timer:
+			switch (fill_tim)
+			{
+				case fill_hour:
+					number = 0;
+					break;
+				case fill_min:
+					fill_tim = fill_hour;
+					number = 0;
+					break;
+				case fill_sec:
+					fill_tim = fill_min;
+					number = 0;
+					break;
+				default:
+					break;
+			}
+			number = 0;
+            break;
+        case menu_mainPage_SetUp:
+            break;
+        case menu_processGsm:
+            break;
+        case menu_displayTime:
+            break;
+        case menu_changeClock:
+            break;
+        case menu_setRtcAlarm:
+            break;
+        case menu_displaySensor:
+            break;
+        default:
+            break;
+    }
 
-// 	switch(g_menu_state)
-// 	{
-// 		case MENU_MAIN_PAGE:
-// 			// menu_page_init(MENU_CHANGE_PF);
-// 		break;
-// 		case MENU_CHANGE_PF:
-// 			TrsQueMes.rq_status  = CH_ENTERED_PF;
-// 			number /= 10;
-// 			TrsQueMes.entered_PF = number;
-// 			osMessageQueuePut(lcdQueueHandle, &TrsQueMes, NULL, 50);
-// 		break;
-// 		case MENU_VIEW_DETALES:
-// 		break;
-// 		case MENU_RESET_PRODUCTS_NUM:
-// 		break;
-// 		default:
-// 		break;
-// 	}
-	LCD_Clear();
+	// LCD_Clear();
 	_delay_ms(10); //just for save this func
 }
 void keypad_kp_11_func (void) //kp B   //MENU_VIEW_DETALES   //set MOTOR_A PF
 {
-// menu_MessageQueue_t TrsQueMes;
+	switch(get_menuStat()){
+        case menu_starting:
+            break;
+        case menu_mainPage:
+            break;
+		case menu_mainPage_Stat:
+            break;
+        case menu_mainPage_Timer:
+			switch (fill_tim)
+			{
+				case fill_hour:
+					fill_tim = fill_min;
+					break;
+				case fill_min:
+					fill_tim = fill_sec;
+					break;
+				case fill_sec:
+					break;
+				default:
+					break;
+			}
+			number = 0;
+            break;
+        case menu_mainPage_SetUp:
+            break;
+        case menu_processGsm:
+            break;
+        case menu_displayTime:
+            break;
+        case menu_changeClock:
+            break;
+        case menu_setRtcAlarm:
+            break;
+        case menu_displaySensor:
+            break;
+        default:
+            break;
+    }
 
-// 	switch(g_menu_state)
-// 	{
-// 		case MENU_MAIN_PAGE:
-// 			menu_page_init(MENU_VIEW_DETALES);
-// 		break;
-// 		case MENU_CHANGE_PF:
-// 			motor_dc_set_pf(MOTOR_A, (uint8_t)number); //set MOTOR_A PF
-// 			TrsQueMes.rq_status  = CH_CURRENT_PF;
-// 			TrsQueMes.current_PF = motor_dc_get_pf(MOTOR_A);
-// 			osMessageQueuePut(lcdQueueHandle, &TrsQueMes, NULL, 50);
-// 			osDelay(1000);
-// 			menu_page_init(MENU_MAIN_PAGE);
-// 		break;
-// 		case MENU_VIEW_DETALES:
-// 		break;
-// 		case MENU_RESET_PRODUCTS_NUM:
-// 		break;
-// 		default:
-// 		break;
-// 	}
-	
 	_delay_ms(11); //just for save this func
 }
 void keypad_kp_12_func (void) //kp C   //MENU_RESET_PRODUCTS_NUM
 {
-	
-	// switch(g_menu_state)
-	// {
-	// 	case MENU_MAIN_PAGE:
-	// 		menu_page_init(MENU_RESET_PRODUCTS_NUM);
-	// 	break;
-	// 	case MENU_CHANGE_PF:
-	// 	break;
-	// 	case MENU_VIEW_DETALES:
-	// 	break;
-	// 	case MENU_RESET_PRODUCTS_NUM:
-	// 	break;
-	// 	default:
-	// 	break;
-	// }
-	
+	switch(get_menuStat()){
+        case menu_starting:
+            break;
+        case menu_mainPage:
+            break;
+		case menu_mainPage_Stat:
+            break;
+        case menu_mainPage_Timer:
+            break;
+        case menu_mainPage_SetUp:
+            break;
+        case menu_processGsm:
+            break;
+        case menu_displayTime:
+            break;
+        case menu_changeClock:
+            break;
+        case menu_setRtcAlarm:
+            break;
+        case menu_displaySensor:
+            break;
+        default:
+            break;
+    }
+
 	_delay_ms(12); //just for save this func
 }
 void keypad_kp_13_func (void) //kp D  //MENU_MAIN_PAGE
 {
-
-	// switch(g_menu_state)
-	// {
-	// 	case MENU_MAIN_PAGE:
-	// 	break;
-	// 	case MENU_CHANGE_PF:
-	// 		menu_page_init(MENU_MAIN_PAGE);
-	// 	break;
-	// 	case MENU_VIEW_DETALES:
-	// 		menu_page_init(MENU_MAIN_PAGE);
-	// 	break;
-	// 	case MENU_RESET_PRODUCTS_NUM:
-	// 		menu_page_init(MENU_MAIN_PAGE);
-	// 	break;
-	// 	default:
-	// 	break;
-	// }
+	switch(get_menuStat()){
+        case menu_starting:
+        case menu_mainPage:
+            break;
+		case menu_mainPage_Stat:
+        case menu_mainPage_Timer:
+        case menu_mainPage_SetUp:
+        case menu_processGsm:
+        case menu_displayTime:
+        case menu_changeClock:
+        case menu_setRtcAlarm:
+        case menu_displaySensor:
+			set_menu(menu_mainPage);
+            break;
+        default:
+            break;
+    }
 	
 	_delay_ms(13); //just for save this func
 }
 void keypad_kp_14_func (void)
 {
+	switch(get_menuStat()){
+        case menu_starting:
+            break;
+        case menu_mainPage:
+            break;
+		case menu_mainPage_Stat:
+            break;
+        case menu_mainPage_Timer:
+			//set Timer for check with RTC
+			// with "timer"
+            break;
+        case menu_mainPage_SetUp:
+            break;
+        case menu_processGsm:
+            break;
+        case menu_displayTime:
+            break;
+        case menu_changeClock:
+            break;
+        case menu_setRtcAlarm:
+            break;
+        case menu_displaySensor:
+            break;
+        default:
+            break;
+    }
+
 	_delay_ms(14); //just for save this func
 }
 void keypad_kp_15_func (void)
 {
+	switch(get_menuStat()){
+        case menu_starting:
+            break;
+        case menu_mainPage:
+            break;
+		case menu_mainPage_Stat:
+            break;
+        case menu_mainPage_Timer:
+            break;
+        case menu_mainPage_SetUp:
+            break;
+        case menu_processGsm:
+            break;
+        case menu_displayTime:
+            break;
+        case menu_changeClock:
+            break;
+        case menu_setRtcAlarm:
+            break;
+        case menu_displaySensor:
+            break;
+        default:
+            break;
+    }
+
 	_delay_ms(15); //just for save this func
 }
 
@@ -334,7 +488,7 @@ keypad_key_state_t keypad_state_detect (void)
 {
 keypad_key_state_t key_state = HIGH_LEVEL;
 
-		if(g_output_key == g_output_key_prior)
+	if(g_output_key == g_output_key_prior)
     {
         if(g_output_key == IDLE_OUTPUT_KEY)
         {

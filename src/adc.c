@@ -19,7 +19,6 @@ uint16_t count = 0;
 ISR(ADC_vect){
   adcVal = ADCW;
   count++;
-  adc_start();
 }
 uint16_t get_adc_value(void){
   return adcVal;

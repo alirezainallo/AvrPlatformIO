@@ -11,6 +11,23 @@
 #include <stdlib.h>
 #include <avr/interrupt.h>
 
+typedef enum menuStat_tag{
+    menu_starting = 0,
+    menu_mainPage,
+    menu_mainPage_Stat,
+    menu_mainPage_Timer,
+    menu_mainPage_SetUp,
+    menu_processGsm,
+    menu_displayTime,
+    menu_displaySensor,
+    menu_changeClock,
+    menu_setRtcAlarm,
+}menuStat_t;
 
+typedef struct timer_tag{
+    uint8_t hour;
+    uint8_t min;
+    uint8_t sec;
+}timer_t;
 
 #endif //_MAIN_H
