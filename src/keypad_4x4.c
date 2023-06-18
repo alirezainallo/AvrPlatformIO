@@ -49,6 +49,9 @@ void keypad_kp_0_9_func (void)
 				case 3:
 					set_menu(menu_mainPage_SetUp);
 					break;
+				case 4:
+					set_menu(menu_processGsm);
+					break;
 				default:
 					break;
 			}

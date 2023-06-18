@@ -1,7 +1,6 @@
 #include "menu.h"
 
 
-
 char display[17];
 static uint32_t pageInitTick = 0;
 menuStat_t menuStat = menu_mainPage;
@@ -22,22 +21,22 @@ void menu_initPage(menuStat_t stat){
 
     switch(stat){
         case menu_starting:
-            LCD_Init();
-            
-            heart_beat_init(500);
-
-            keypad_init(FALLING_EDGE);
-
             mq5_init(400);
             dht11_init(450);
+            
+            keypad_init(FALLING_EDGE);
+            
+            LCD_Init();
+
+            heart_beat_init(500);
+
 
             // RTC_Init();
-
-            // uart_init();
-            _delay_ms(100);
             
             LCD_String_xy(0, 0, "Starting...");
             pageInitTick = get_currentTick();
+            
+            GSM_init();
             break;
         case menu_mainPage:
             sprintf(display, "1.Stat   2.Timer");
@@ -64,6 +63,11 @@ void menu_initPage(menuStat_t stat){
             LCD_String_xy(1, 0, display);
             break;
         case menu_processGsm:
+            LCD_String_xy(0, 0, "AtCmdRes:");
+            // GSM_sendSMS("09035683914",
+            // strlen("09035683914"),
+            // "HIGH error",
+            // strlen("HIGH error"));
             break;
         case menu_displayTime:
             break;

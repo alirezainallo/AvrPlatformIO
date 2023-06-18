@@ -1,66 +1,79 @@
 #include "uart.h"
 
+
+// ------------------------>> prototypes <<--------------------------------
+
+char* rxGetLine(void);
+void txSendData(void);
+extern void GSM_lineProcess(char *line, size_t len);
+
+// ------------------------>> loop <<--------------------------------
+char display[17] = {0};
+
 void uart_loop(void){
    if(rx_lineReady){
-      // rx_ind = 0;
-      // PORTA |= (1 << PA3);
-      rx_buffer[!rx_curr_buffer][rx_len] = 0;
-      LCD_String_xy(1,0,"resid");
-      LCD_String_xy(0,0,rx_buffer[!rx_curr_buffer]);
-      // UDR = 'a';
-      // send_ch('a');
-      rx_lineReady = 0;
-      // sei();
-      // static char i = 0;
-      // i++;
-      // if(i == 1){
-      //   putChar('B');
-      // }else if(i == 2){
-      //   putChar('C');
-      // }
-      // txSendDataLen(" Inallo\n", 8);
+      rx_lineReady = false;
+
+      //process line ...
+      GSM_lineProcess(rxGetLine(), rx_len);
    }
 }
 
-char rx_buffer[2][RX_BUFFER_SIZE];
+// ------------------------>> RX <<--------------------------------
+
+extern bool smsSignReceived;
+extern bool forceNeedCrLf;
+char rx_buffer[2][RX_BUFFER_SIZE] = {0};
 bool rx_curr_buffer = false;
 size_t rx_ind = 0;
 size_t rx_len = 0;
 bool rx_lineReady = 0;
 bool rx_buff_overflow = 0;
-extern char rxUart_debug;
 ISR(USART_RXC_vect)
 {
 cli();
-UCSRA |= (1 << RXC);
-char status,data;
-status = UCSRA;
-data = UDR;
-   if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN)) == 0){
-      rx_buffer[rx_curr_buffer][rx_ind++] = data;
-      if(data == '\n'){
-         PORTA &= ~(1 << PA3);
-         rx_len = rx_ind - 1;
-         rx_ind = 0;
-
-         rx_curr_buffer = !rx_curr_buffer;
-         rx_lineReady = true;
-      }
-      if(rx_ind < RX_BUFFER_SIZE){
-         rx_ind = 0;
-         rx_buff_overflow = true;
-      }
-      // rxUart_debug = data;
+char data;
+// char status;
+   // status = UCSRA;
+   UCSRA |= (1 << RXC);
+   data = UDR;
+   rx_buffer[rx_curr_buffer][rx_ind++] = data;
+   if(rx_ind >= RX_BUFFER_SIZE){
+      rx_ind = 0;
+      rx_buff_overflow = true;
    }
+   else if(data == '\n'){
+      if(rx_buffer[rx_curr_buffer][rx_ind - 1] == '\r'){
+         --rx_ind;
+         forceNeedCrLf = false;
+      }
+      rx_buffer[rx_curr_buffer][--rx_ind] = 0;
+      rx_len = rx_ind;
+
+      rx_ind = 0;
+      rx_curr_buffer = !rx_curr_buffer;
+      rx_lineReady = true;
+   }
+   else if((data == '>') && (!smsSignReceived)){
+      smsSignReceived = true;
+      rx_ind = 0;
+   }
+
+   /*if ((status & (FRAMING_ERROR | PARITY_ERROR | DATA_OVERRUN)) == 0){
+      
+      // rxUart_debug = data;
+   }*/
 sei();
 }
 
+char* rxGetLine(void){
+   return rx_buffer[!rx_curr_buffer];
+}
 
-// --------------------------------------------------------
+// ------------------------>> TX <<--------------------------------
 
 char tx_buffer[TX_BUFFER_SIZE];
 
-void txSendData(void);
 // USART Transmitter interrupt service routine
 ISR(USART_TXC_vect)
 {  

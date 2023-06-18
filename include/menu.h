@@ -3,6 +3,9 @@
 
 #include "LCD.h"
 #include "mq5.h"
+#include "gsm.h"
+#include "RTC.h"
+#include "uart.h"
 #include "main.h"
 #include "DHT11.h"
 #include "timTick.h"
