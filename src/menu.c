@@ -28,8 +28,8 @@ void menu_initPage(menuStat_t stat){
 
             keypad_init(FALLING_EDGE);
 
-            mq5_init(200);
-            dht11_init(250);
+            mq5_init(400);
+            dht11_init(450);
 
             // RTC_Init();
 

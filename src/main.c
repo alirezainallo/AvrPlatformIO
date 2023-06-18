@@ -9,6 +9,7 @@
 #include "time_out.h"
 #include "keypad_4x4.h"
 #include "heart_beat.h"
+// #include <ds1307.h>
 
 // void LCD_print(uint16_t temp, unsigned char cur_count);
 
@@ -42,8 +43,8 @@ void send_ch(char ch){
 //"AT+CMGS="09035683914"/r/n"
 //Res//"+cmt: "+989217791093","","23/06/16,17:29:29+14""
 int main(void){
-  DDRA  |= (1 << PA3);
-  PORTA |= (1 << PA3);
+  // DDRA  |= (1 << PA3);
+  // PORTA |= (1 << PA3);
   
   sei(); //enable global interrupt
   
@@ -51,9 +52,9 @@ int main(void){
 
   // txSendDataLen("Alireza\n", 8);
   
-  // char buffer[20];
-	// char* days[7]= {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
   
+  LCD_Init();
+  RTC_Init();
 
   menu_init();
 
@@ -63,10 +64,10 @@ int main(void){
     menu_loop();
     heart_beat();
     keypad_process();
-    // dht11_loop();
-    // mq5_loop();
+    // // dht11_loop();
+    // // mq5_loop();
     
-    
+    // RTC_loop();
 
 
     // MQ5
@@ -75,31 +76,9 @@ int main(void){
     // uart_loop();
 
     //RTC
-    /*
-        RTC_Read_Clock(0);	// Read clock with second add. i.e location is 0
-    if (hour & TimeFormat12)	
-    {
-      sprintf(buffer, "%02x:%02x:%02x  ", (hour & 0b00011111), minute, second);
-      if(IsItPM(hour)){
-        strcat(buffer, "PM");
-      }
-      else{
-        strcat(buffer, "AM");
-      }
-      // lcd_print_xy(0,0,buffer);
-      LCD_String_xy(0,0,buffer);
-    }
-    else
-    {
-      sprintf(buffer, "%02x:%02x:%02x  ", (hour & 0b00011111), minute, second);
-      // lcd_print_xy(0,0,buffer);
-      LCD_String_xy(0,0,buffer);
-    }
-    RTC_Read_Calendar(3);	// Read calendar with day address i.e location is 3 
-    sprintf(buffer, "%02x/%02x/%02x %3s ", date, month, year,days[day-1]);
-    // lcd_print_xy(1,0,buffer);
-    LCD_String_xy(1,0,buffer);
-    */
+    
+    
+
 
     //DHT sensor
     /*

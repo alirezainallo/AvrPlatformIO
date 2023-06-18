@@ -70,6 +70,8 @@
     "uart.h": "c",
     "mq5.h": "c",
     "dht11.h": "c",
-    "menu.h": "c"
+    "menu.h": "c",
+    "rtc.h": "c",
+    "i2c_master.h": "c"
   }
 }

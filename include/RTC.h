@@ -41,12 +41,15 @@
 
 #include "main.h"
 #include "i2c_master.h"
+#include "timTick.h"
+#define  RTC_TIME_OUT 1000
 
 extern int second,minute,hour,day,date,month,year;
 
 void RTC_Init(void);
+void RTC_loop(void);
 void RTC_Clock_Write(char _hour, char _minute, char _second);
-void RTC_Calendar_Write(char _day, char _date, char _month, char _year);
+void RTC_Calendar_Write(char _day, char _date, char _month, uint16_t _year);
 bool IsItPM(char hour_);
 void RTC_Read_Clock(char read_clock_address);
 void RTC_Read_Calendar(char read_calendar_address);

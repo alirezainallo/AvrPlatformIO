@@ -86,6 +86,7 @@ void keypad_kp_0_9_func (void)
             LCD_String_xy(1, 0, lcd_buff);
             break;
         case menu_mainPage_SetUp:
+			LCD_Char(get_keypad_value()+'0');
             break;
         case menu_processGsm:
             break;
@@ -316,7 +317,19 @@ void keypad_process (void)
 	{
 		
 		switch(get_keypad_value())
-		{
+		{	
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+			case 9:
+			keypad_kp_0_9_func();
+			break;
 			case 10:
 				keypad_kp_10_func();
 			break;
@@ -336,7 +349,6 @@ void keypad_process (void)
 				keypad_kp_15_func();
 			break;
 			default:
-				keypad_kp_0_9_func();
 			break;
 		}
 	}
@@ -480,7 +492,9 @@ void keypad_update (void)
     else
     {
         g_keypad_row = MAX_KEYPAD_ROW;
-        g_keypad_col = MAX_KEYPAD_COL;	
+        g_keypad_col = MAX_KEYPAD_COL;
+		//for solve no duplicate problem
+		g_output_key_prior = IDLE_OUTPUT_KEY;
     }
 }
 
