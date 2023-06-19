@@ -3,9 +3,20 @@
 
 #define IDLE_OUTPUT_KEY 16
 
+
+typedef enum{
+	PIN_LOW  = 0,
+	PIN_HIGH = 1,
+}PinState;
+
 uint8_t  keypad_value_detect (void);
 uint8_t is_any_key_pressed (void);
 void keypad_update (void);
+void PortWrite(volatile uint8_t* Port, uint8_t Pin, PinState level);
+PinState PinRead(volatile uint8_t* PIN, uint8_t Pin);
+void write_row (uint8_t value);
+PinState read_col (uint8_t col);
+
 
 static uint8_t g_output_key = 0;
 static uint8_t g_output_key_prior = 0;
@@ -14,10 +25,7 @@ static uint8_t g_keypad_col  = MAX_KEYPAD_COL;
 /*static*/ uint8_t kp            = 0;
 static keypad_key_state_t trigge_state = FALLING_EDGE;
 
-typedef enum{
-	PIN_LOW  = 0,
-	PIN_HIGH = 1,
-}PinState;
+
 
 char lcd_buff[17] = {0};
 timer_t timer = {0};
@@ -393,7 +401,7 @@ void PortWrite(volatile uint8_t* Port, uint8_t Pin, PinState level){
 	}
 }
 PinState PinRead(volatile uint8_t* PIN, uint8_t Pin){
-	return (*PIN & (1 << Pin));
+	return ((*PIN & (1 << Pin)) != 0);
 }
 void write_row (uint8_t value)
 {

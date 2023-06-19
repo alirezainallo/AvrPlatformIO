@@ -8,7 +8,7 @@ void txSendData(void);
 extern void GSM_lineProcess(char *line, size_t len);
 
 // ------------------------>> loop <<--------------------------------
-char display[17] = {0};
+// char display[17] = {0};
 
 void uart_loop(void){
    if(rx_lineReady){

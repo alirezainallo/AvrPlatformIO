@@ -96,6 +96,7 @@ typedef enum
 	RISING_EDGE
 }keypad_key_state_t;
 
+
 void keypad_process (void);
 uint8_t get_keypad_value (void);
 void keypad_init (keypad_key_state_t state);

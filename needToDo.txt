@@ -1,0 +1,10 @@
+* SIM
+
++ DS1307
++ UART
++ LDR
++ Dual ADC
+
+- keypad
+- control sensor react
+- menu

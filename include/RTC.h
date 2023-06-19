@@ -44,7 +44,8 @@
 #include "timTick.h"
 #define  RTC_TIME_OUT 1000
 
-extern int second,minute,hour,day,date,month,year;
+extern char second,minute,hour,day,date,month;
+extern uint16_t year;
 
 void RTC_Init(void);
 void RTC_loop(void);

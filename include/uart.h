@@ -14,7 +14,7 @@
 #define RX_BUFFER_SIZE 128
 
 // USART Transmitter buffer
-#define TX_BUFFER_SIZE 128
+#define TX_BUFFER_SIZE 64
 
 extern size_t rx_ind;
 extern size_t rx_len;

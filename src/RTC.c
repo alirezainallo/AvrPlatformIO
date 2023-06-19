@@ -1,5 +1,8 @@
 #include "RTC.h"
 
+char second,minute,hour,day,date,month;
+uint16_t year;
+
 static uint8_t bcd2bin(uint8_t val){
 	return val - 6 * (val >> 4); 
 }
@@ -53,8 +56,6 @@ void RTC_Calendar_Write(char _day, char _date, char _month, uint16_t _year)
 	I2C_Write(bin2bcd(_year - 2000));		/* Write year on 06 location */
 	I2C_Stop();			/* Stop I2C communication */
 }
-
-int second,minute,hour,day,date,month,year;
 
 bool IsItPM(char hour_)
 {
