@@ -1,5 +1,5 @@
 #include "keypad_4x4.h"
-
+#include "uart.h"
 
 #define IDLE_OUTPUT_KEY 16
 
@@ -30,7 +30,7 @@ typedef enum{
 
 fill_time fill_tim = fill_hour;
 
-uint32_t number = 0;
+uint32_t number = 0;//for normal usage
 
 void keypad_kp_0_9_func (void)
 {
@@ -51,6 +51,9 @@ void keypad_kp_0_9_func (void)
 					break;
 				case 4:
 					set_menu(menu_processGsm);
+					break;
+				case 5:
+					set_menu(menu_debugKeypad_displaySensor);
 					break;
 				default:
 					break;
@@ -89,7 +92,6 @@ void keypad_kp_0_9_func (void)
             LCD_String_xy(1, 0, lcd_buff);
             break;
         case menu_mainPage_SetUp:
-			LCD_Char(get_keypad_value()+'0');
             break;
         case menu_processGsm:
             break;
@@ -99,7 +101,8 @@ void keypad_kp_0_9_func (void)
             break;
         case menu_setRtcAlarm:
             break;
-        case menu_displaySensor:
+        case menu_debugKeypad_displaySensor:
+			LCD_Char(get_keypad_value()+'0');
             break;
         default:
             break;
@@ -147,7 +150,8 @@ void keypad_kp_10_func (void) //kp A   //MENU_CHANGE_PF
             break;
         case menu_setRtcAlarm:
             break;
-        case menu_displaySensor:
+        case menu_debugKeypad_displaySensor:
+			LCD_Clear();
             break;
         default:
             break;
@@ -191,7 +195,7 @@ void keypad_kp_11_func (void) //kp B   //MENU_VIEW_DETALES   //set MOTOR_A PF
             break;
         case menu_setRtcAlarm:
             break;
-        case menu_displaySensor:
+        case menu_debugKeypad_displaySensor:
             break;
         default:
             break;
@@ -220,7 +224,7 @@ void keypad_kp_12_func (void) //kp C   //MENU_RESET_PRODUCTS_NUM
             break;
         case menu_setRtcAlarm:
             break;
-        case menu_displaySensor:
+        case menu_debugKeypad_displaySensor:
             break;
         default:
             break;
@@ -241,7 +245,7 @@ void keypad_kp_13_func (void) //kp D  //MENU_MAIN_PAGE
         case menu_displayTime:
         case menu_changeClock:
         case menu_setRtcAlarm:
-        case menu_displaySensor:
+        case menu_debugKeypad_displaySensor:
 			set_menu(menu_mainPage);
             break;
         default:
@@ -273,7 +277,7 @@ void keypad_kp_14_func (void)
             break;
         case menu_setRtcAlarm:
             break;
-        case menu_displaySensor:
+        case menu_debugKeypad_displaySensor:
             break;
         default:
             break;
@@ -302,7 +306,7 @@ void keypad_kp_15_func (void)
             break;
         case menu_setRtcAlarm:
             break;
-        case menu_displaySensor:
+        case menu_debugKeypad_displaySensor:
             break;
         default:
             break;
@@ -367,11 +371,17 @@ void keypad_init (keypad_key_state_t state)
 	KEYPAD_C3_DIR  &= ~(1 << KEYPAD_C3_Pin);
 	KEYPAD_C0_PORT |=  (1 << KEYPAD_C3_Pin);
 
-	KEYPAD_R0_DIR  |=  (1 << KEYPAD_R0_Pin);
-	KEYPAD_R1_DIR  |=  (1 << KEYPAD_R1_Pin);
-	KEYPAD_R2_DIR  |=  (1 << KEYPAD_R2_Pin);
-	KEYPAD_R3_DIR  |=  (1 << KEYPAD_R3_Pin);
+	KEYPAD_R0_DIR   |=  (1 << KEYPAD_R0_Pin);
+	KEYPAD_R0_PORT  |=  (1 << KEYPAD_R0_Pin);
+	KEYPAD_R1_DIR   |=  (1 << KEYPAD_R1_Pin);
+	KEYPAD_R1_PORT  |=  (1 << KEYPAD_R1_Pin);
+	KEYPAD_R2_DIR   |=  (1 << KEYPAD_R2_Pin);
+	KEYPAD_R2_PORT  |=  (1 << KEYPAD_R2_Pin);
+	KEYPAD_R3_DIR   |=  (1 << KEYPAD_R3_Pin);
+	KEYPAD_R3_PORT  |=  (1 << KEYPAD_R3_Pin);
 
+	// write_row(0x00);
+	// _delay_ms(20000);
 	trigge_state = state;
 }
 void PortWrite(volatile uint8_t* Port, uint8_t Pin, PinState level){
@@ -444,7 +454,9 @@ static const uint8_t key_matrix[MAX_KEYPAD_ROW][MAX_KEYPAD_COL] =
     }
     else
     {
-        g_output_key = IDLE_OUTPUT_KEY;    
+        g_output_key = IDLE_OUTPUT_KEY;
+		// txSendDataLen("valDec", strlen("valDec"));
+		// _delay_ms(5);  
     }                 
     
     return g_output_key;
@@ -473,9 +485,13 @@ uint8_t is_any_key_pressed (void)
 uint8_t output_state = 0;
   
     write_row(0x0F);
-		if(check_cols() != 0x0F)
+	if(check_cols() != 0x0F)
     { 
-        /*if(timeout_is_ok(KEYPAD_TIMEOUT, KEY_FUNC))*/output_state = 1;
+		// char display[20];
+        output_state = 1;
+		// sprintf(display, "check_cols: %d\n", check_cols());
+		// txSendDataLen(display, strlen(display));
+		// _delay_ms(20);
     }
     else
     {
@@ -496,8 +512,6 @@ void keypad_update (void)
     {
         g_keypad_row = MAX_KEYPAD_ROW;
         g_keypad_col = MAX_KEYPAD_COL;
-		//for solve no duplicate problem
-		g_output_key_prior = IDLE_OUTPUT_KEY;
     }
 }
 
@@ -526,7 +540,9 @@ keypad_key_state_t key_state = HIGH_LEVEL;
         }
         else
         {
-            key_state = FALLING_EDGE;    
+            key_state = FALLING_EDGE;
+			// txSendDataLen("statDec", strlen("statDec"));
+			// _delay_ms(20);   
         }    
     }
     

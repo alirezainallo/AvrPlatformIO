@@ -11,7 +11,7 @@
 #include "keypad_4x4.h"
 #include "heart_beat.h"
 
-
+// extern void write_row (uint8_t value);
 int main(void){
   
   sei(); //enable global interrupt
@@ -30,6 +30,7 @@ int main(void){
     adc_loop();
     dht11_loop();
     mq5_loop();
+    ldr_loop();
     
     GSM_loop();
 

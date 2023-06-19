@@ -21,10 +21,10 @@ void menu_initPage(menuStat_t stat){
 
     switch(stat){
         case menu_starting:
-            // adc_init(200);
-            // ldr_init(300);
-            // mq5_init(400);
-            // dht11_init(450);
+            adc_init(200);
+            ldr_init(300);
+            mq5_init(400);
+            dht11_init(450);
             
             keypad_init(FALLING_EDGE);
             
@@ -77,7 +77,7 @@ void menu_initPage(menuStat_t stat){
             break;
         case menu_setRtcAlarm:
             break;
-        case menu_displaySensor:
+        case menu_debugKeypad_displaySensor:
             break;
         default:
             break;
@@ -98,8 +98,8 @@ void menu_loop(void){
         case menu_mainPage:
             break;
         case menu_mainPage_Stat:
-            dht11_loop();
-            mq5_loop();
+            // dht11_loop();
+            // mq5_loop();
             break;
         case menu_mainPage_Timer:
             break;
@@ -108,12 +108,13 @@ void menu_loop(void){
         case menu_processGsm:
             break;
         case menu_displayTime:
+            RTC_loop();
             break;
         case menu_changeClock:
             break;
         case menu_setRtcAlarm:
             break;
-        case menu_displaySensor:
+        case menu_debugKeypad_displaySensor:
             break;
         default:
             break;

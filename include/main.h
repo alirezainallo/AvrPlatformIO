@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/eeprom.h>
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -19,7 +20,7 @@ typedef enum menuStat_tag{
     menu_mainPage_SetUp,
     menu_processGsm,
     menu_displayTime,
-    menu_displaySensor,
+    menu_debugKeypad_displaySensor,
     menu_changeClock,
     menu_setRtcAlarm,
 }menuStat_t;

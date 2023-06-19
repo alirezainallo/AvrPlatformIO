@@ -8,34 +8,43 @@ uint32_t adc_ms = 200;
 void adc_init(uint32_t ms){
   adc_ms = ms;
   // AREF, Internal Vref turned off
-  DDRA   &= ~(1 << PA4);
-  PORTA  &= ~(1 << PA4);
+  DDRA   &= ~((1 << PA4)|(1 << PA5));
+  PORTA  &= ~((1 << PA4)|(1 << PA5));
   ADMUX  |=  (1 << REFS0); 
-  ADCSRA |= (1 << ADEN)|(1 << ADIE);
+  ADCSRA |= (1 << ADEN);
   ADCSRA |= (1 << ADPS2)|(1 << ADPS1)|(1 << ADPS0);//PreScaler 128
   // ADCSRA |= (1 << ADSC);//start adc conv
-  // ADCSRA |= (1 << ADCSRA); interrupt flag
+  // ADCSRA |= (1 << ADIF); interrupt flag
   // ADCW: data reg
 }
+uint16_t adcVal[2] = {0};
 void adc_start(adc_channels_t ch){
-  while (currChannel != adc_ch_Idle){
-  }
   currChannel = ch;
-  
   ADMUX = (ADMUX & 0xE0) | ch;  
   ADCSRA |= (1 << ADSC);//start adc conv
-}
-uint16_t adcVal[2] = {0};
-ISR(ADC_vect){
+  while (!(ADCSRA & (1 << ADIF)));
+  ADCSRA |= (1 << ADIF);
+
   if(currChannel == adc_ch4){
     adcVal[0] = ADCW;
   }
   else if(currChannel == adc_ch5){
     adcVal[1] = ADCW;
   }
-  currChannel = adc_ch_Idle;
-  
+  else{
+    
+  }
+
 }
+// ISR(ADC_vect){
+//   if(currChannel == adc_ch4){
+//     adcVal[0] = ADCW;
+//   }
+//   else if(currChannel == adc_ch5){
+//     adcVal[1] = ADCW;
+//   }
+//   currChannel = adc_ch_Idle;
+// }
 uint16_t get_adc_value(adc_channels_t ch){
   uint8_t retInd = 0;
   if(ch == adc_ch4){

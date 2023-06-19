@@ -21,7 +21,7 @@
 //     menu_mainPage_SetUp,
 //     menu_processGsm,
 //     menu_displayTime,
-//     menu_displaySensor,
+//     menu_debugKeypad_displaySensor,
 //     menu_changeClock,
 //     menu_setRtcAlarm,
 // }menuStat_t;

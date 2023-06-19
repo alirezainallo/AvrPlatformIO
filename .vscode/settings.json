@@ -72,6 +72,7 @@
     "dht11.h": "c",
     "menu.h": "c",
     "rtc.h": "c",
-    "i2c_master.h": "c"
+    "i2c_master.h": "c",
+    "eeprom.h": "c"
   }
 }
