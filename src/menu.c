@@ -1,7 +1,7 @@
 #include "menu.h"
 
 
-char display[17];
+// char display_LCD[17];
 static uint32_t pageInitTick = 0;
 menuStat_t menuStat = menu_mainPage;
 
@@ -41,28 +41,28 @@ void menu_initPage(menuStat_t stat){
             GSM_init();
             break;
         case menu_mainPage:
-            sprintf(display, "1.Stat   2.Timer");
-            LCD_String_xy(0, 0, display);
-            sprintf(display, "3.SetUp");
-            LCD_String_xy(1, 0, display);
+            sprintf(display_LCD, "1.Stat   2.Timer");
+            LCD_String_xy(0, 0, display_LCD);
+            sprintf(display_LCD, "3.SetUp");
+            LCD_String_xy(1, 0, display_LCD);
             break;
         case menu_mainPage_Stat:
-            sprintf(display, "T:  %c   RH:  %c  ", 223, 37);
-            LCD_String_xy(0, 0, display);
-            sprintf(display, "CO2:      L:  %c  ", 37);
-            LCD_String_xy(1, 0, display);
+            sprintf(display_LCD, "T:  %c   RH:  %c  ", 223, 37);
+            LCD_String_xy(0, 0, display_LCD);
+            sprintf(display_LCD, "CO2:      L:  %c  ", 37);
+            LCD_String_xy(1, 0, display_LCD);
             break;
         case menu_mainPage_Timer:
-            sprintf(display, "Watering time:");
-            LCD_String_xy(0, 0, display);
-            sprintf(display, "    %02d:%02d:%02d    ", timer.hour, timer.min, timer.sec);
-            LCD_String_xy(1, 0, display);
+            sprintf(display_LCD, "Watering time:");
+            LCD_String_xy(0, 0, display_LCD);
+            sprintf(display_LCD, "    %02d:%02d:%02d    ", timer.hour, timer.min, timer.sec);
+            LCD_String_xy(1, 0, display_LCD);
             break;
         case menu_mainPage_SetUp:
-            sprintf(display, "1.Time");
-            LCD_String_xy(0, 0, display);
-            sprintf(display, "2.SensorSense");
-            LCD_String_xy(1, 0, display);
+            sprintf(display_LCD, "1.Time");
+            LCD_String_xy(0, 0, display_LCD);
+            sprintf(display_LCD, "2.SensorSense");
+            LCD_String_xy(1, 0, display_LCD);
             break;
         case menu_processGsm:
             LCD_String_xy(0, 0, "AtCmdRes:");
@@ -108,7 +108,6 @@ void menu_loop(void){
         case menu_processGsm:
             break;
         case menu_displayTime:
-            RTC_loop();
             break;
         case menu_changeClock:
             break;

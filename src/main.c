@@ -11,6 +11,8 @@
 #include "keypad_4x4.h"
 #include "heart_beat.h"
 
+char display_LCD[17];
+
 int main(void){
   
 
@@ -33,6 +35,7 @@ int main(void){
     ldr_loop();
     
     GSM_loop();
+    RTC_loop();
 
   }
 }

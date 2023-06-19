@@ -3,6 +3,8 @@
 char second,minute,hour,day,date,month;
 uint16_t year;
 
+extern menuStat_t get_menuStat(void);
+
 static uint8_t bcd2bin(uint8_t val){
 	return val - 6 * (val >> 4); 
 }
@@ -91,7 +93,7 @@ void RTC_Read_Calendar(char read_calendar_address)
 }
 
 void RTC_loop(void){
-  static char buffer[20];
+//   static char display_LCD[20];
   static char days[7][4]= {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
   static uint32_t nextTick;
   static uint32_t currTick;
@@ -100,27 +102,30 @@ void RTC_loop(void){
     nextTick = currTick + RTC_TIME_OUT;
 
     RTC_Read_Clock(0);	// Read clock with second add. i.e location is 0
-    if (hour & TimeFormat12)	
-    {
-      sprintf(buffer, "%02d:%02d:%02d", (hour & 0b00011111), minute, second);
-      if(IsItPM(hour)){
-        strcat(buffer, "PM");
-      }
-      else{
-        strcat(buffer, "AM");
-      }
-      // lcd_print_xy(0,0,buffer);
-      LCD_String_xy(0,0,buffer);
-    }
-    else
-    {
-      sprintf(buffer, "%02d:%02d:%02d", (hour & 0b00011111), minute, second);
-      // lcd_print_xy(0,0,buffer);
-      LCD_String_xy(0,0,buffer);
-    }
-    RTC_Read_Calendar(3);	// Read calendar with day address i.e location is 3 
-    sprintf(buffer, "%02d/%02d/%04d %s", month, date, year,day!=0?days[day-1]:days[6]);
-    // lcd_print_xy(1,0,buffer);
-    LCD_String_xy(1,0,buffer);
+	RTC_Read_Calendar(3);	// Read calendar with day address i.e location is 3 
+	if(get_menuStat() == menu_displayTime){
+		if (hour & TimeFormat12)	
+		{
+		sprintf(display_LCD, "%02d:%02d:%02d", (hour & 0b00011111), minute, second);
+		if(IsItPM(hour)){
+			strcat(display_LCD, "PM");
+		}
+		else{
+			strcat(display_LCD, "AM");
+		}
+		// lcd_print_xy(0,0,display_LCD);
+		LCD_String_xy(0,0,display_LCD);
+		}
+		else
+		{
+		sprintf(display_LCD, "%02d:%02d:%02d", (hour & 0b00011111), minute, second);
+		// lcd_print_xy(0,0,display_LCD);
+		LCD_String_xy(0,0,display_LCD);
+		}
+
+		sprintf(display_LCD, "%02d/%02d/%04d %s", month, date, year,day!=0?days[day-1]:days[6]);
+		// lcd_print_xy(1,0,display_LCD);
+		LCD_String_xy(1,0,display_LCD);
+	}
   }
 }

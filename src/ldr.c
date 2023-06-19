@@ -19,13 +19,13 @@ static uint32_t currTick = 0;
 void ldr_loop(void){
   currTick = get_currentTick();
   if(nextTick < currTick){
-    static char display[16];
+    // display_LCD[17];
     nextTick = currTick + ldr_ms;
     // LCD_Clear();
     if(get_menuStat() == menu_mainPage_Stat){
       LCD_String_xy(1, 12, "  ");
-      sprintf(display, "%d", ldr_value());
-      LCD_String_xy(1, 12, display);
+      sprintf(display_LCD, "%d", ldr_value());
+      LCD_String_xy(1, 12, display_LCD);
     }
   }
 }

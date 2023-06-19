@@ -27,7 +27,6 @@ void dht11_loop(void){
 //   if(currTick + ht11_ms > )
   if(nextTick < currTick){
 	static uint32_t tmp = 0;
-    static char display[17];
 	tmp = currTick + ht11_ms;
 	if(tmp < UINT16_MAX){
     	nextTick = tmp;
@@ -41,10 +40,10 @@ void dht11_loop(void){
 	if(get_menuStat() == menu_mainPage_Stat){
 		LCD_String_xy(0, 2, "  ");
 		LCD_String_xy(0, 11, "  ");
-		sprintf(display, "%d", temperature_int);
-		LCD_String_xy(0, 2, display);
-		sprintf(display, "%d", humidity_int);
-		LCD_String_xy(0, 11, display);
+		sprintf(display_LCD, "%d", temperature_int);
+		LCD_String_xy(0, 2, display_LCD);
+		sprintf(display_LCD, "%d", humidity_int);
+		LCD_String_xy(0, 11, display_LCD);
 	}
   }
 }

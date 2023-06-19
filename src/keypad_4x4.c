@@ -27,7 +27,7 @@ static keypad_key_state_t trigge_state = FALLING_EDGE;
 
 
 
-char lcd_buff[17] = {0};
+// char display_LCD[17] = {0};
 timer_t timer = {0};
 
 typedef enum{
@@ -96,8 +96,8 @@ void keypad_kp_0_9_func (void)
 				default:
 					break;
 			}
-			sprintf(lcd_buff, "    %02d:%02d:%02d    ", timer.hour, timer.min, timer.sec);
-            LCD_String_xy(1, 0, lcd_buff);
+			sprintf(display_LCD, "    %02d:%02d:%02d    ", timer.hour, timer.min, timer.sec);
+            LCD_String_xy(1, 0, display_LCD);
             break;
         case menu_mainPage_SetUp:
             break;

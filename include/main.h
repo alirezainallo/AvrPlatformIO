@@ -12,6 +12,8 @@
 #include <stdlib.h>
 #include <avr/interrupt.h>
 
+extern char display_LCD[17];
+
 typedef enum menuStat_tag{
     menu_starting = 0,
     menu_mainPage,

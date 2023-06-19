@@ -18,13 +18,13 @@ static uint32_t currTick = 0;
 void mq5_loop(void){
   currTick = get_currentTick();
   if(nextTick < currTick){
-    static char display[16];
+    // static char display_LCD[17];
     nextTick = currTick + mq5_ms;
     // LCD_Clear();
     if(get_menuStat() == menu_mainPage_Stat){
       LCD_String_xy(1, 4, "      ");
-      sprintf(display, "%d", mq5_value());
-      LCD_String_xy(1, 4, display);
+      sprintf(display_LCD, "%d", mq5_value());
+      LCD_String_xy(1, 4, display_LCD);
     }
   }
 }
