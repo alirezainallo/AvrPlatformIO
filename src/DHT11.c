@@ -40,11 +40,11 @@ void dht11_loop(void){
 
 	if(get_menuStat() == menu_mainPage_Stat){
 		LCD_String_xy(0, 2, "  ");
-		LCD_String_xy(0, 10, "  ");
+		LCD_String_xy(0, 11, "  ");
 		sprintf(display, "%d", temperature_int);
 		LCD_String_xy(0, 2, display);
 		sprintf(display, "%d", humidity_int);
-		LCD_String_xy(0, 10, display);
+		LCD_String_xy(0, 11, display);
 	}
   }
 }

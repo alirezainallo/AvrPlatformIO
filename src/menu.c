@@ -21,8 +21,10 @@ void menu_initPage(menuStat_t stat){
 
     switch(stat){
         case menu_starting:
-            mq5_init(400);
-            dht11_init(450);
+            // adc_init(200);
+            // ldr_init(300);
+            // mq5_init(400);
+            // dht11_init(450);
             
             keypad_init(FALLING_EDGE);
             
@@ -45,9 +47,9 @@ void menu_initPage(menuStat_t stat){
             LCD_String_xy(1, 0, display);
             break;
         case menu_mainPage_Stat:
-            sprintf(display, "T:  %c   H:  %c   ", 223, 37);
+            sprintf(display, "T:  %c   RH:  %c  ", 223, 37);
             LCD_String_xy(0, 0, display);
-            sprintf(display, "CO2:            ");
+            sprintf(display, "CO2:      L:  %c  ", 37);
             LCD_String_xy(1, 0, display);
             break;
         case menu_mainPage_Timer:

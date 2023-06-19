@@ -27,7 +27,7 @@ int main(void){
     menu_loop();
     heart_beat();
     keypad_process();
-
+    adc_loop();
     dht11_loop();
     mq5_loop();
     

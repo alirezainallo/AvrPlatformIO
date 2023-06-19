@@ -1,18 +1,16 @@
 #include "mq5.h"
 
-uint32_t mq5_ms = 0;
-
+uint32_t mq5_ms = 500;
 extern menuStat_t get_menuStat(void);
 
 void mq5_init(uint32_t ms){
+  //adc_init(200);//init alone
   mq5_ms = ms;
-  adc_init();//adc4
-  adc_start();
+  adc_start(adc_ch4);
 }
 uint16_t mq5_value(void){
   uint16_t mq5Val = 0;
-  mq5Val = get_adc_value();
-  adc_start();
+  mq5Val = get_adc_value(adc_ch4);
   return mq5Val; 
 }
 static uint32_t nextTick = 0;
