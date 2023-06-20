@@ -1,5 +1,8 @@
 #include "menu.h"
 
+SetUpDataBaseStep_t SetUpDataBaseStep = SetUpDataBase_MIN;
+setUp_t tmpSetUpDataBase;
+dataBaseSec_t setUpDataBase_stat = SEC_HUMIDITY;
 
 // char display_LCD[17];
 static uint32_t pageInitTick = 0;
@@ -39,6 +42,94 @@ void menu_initPage(menuStat_t stat){
             pageInitTick = get_currentTick();
             
             GSM_init();
+            break;
+        case menu_getSetUpForFirst:
+            switch (setUpDataBase_stat)
+            {
+                case SEC_HUMIDITY:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            LCD_String_xy(0, 0, "Enter HR min:");
+                            break;
+                        case SetUpDataBase_MAX:
+                            LCD_String_xy(0, 0, "Enter HR max:");
+                            break;
+                        case SetUpDataBase_TIME:
+                            LCD_String_xy(0, 0, "Enter HR time:");
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_TEMP:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_CO2:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_LIGHT:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_WATERING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_FERTILIZING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
             break;
         case menu_mainPage:
             sprintf(display_LCD, "1.Stat   2.Timer");
@@ -92,8 +183,15 @@ void menu_loop(void){
         case menu_starting:
             if(pageInitTick + 2000 < currTick){
                 pageInitTick = 2000 + currTick;
-                set_menu(menu_mainPage);
+                if(dataBase_wasFirstTime()){
+                    set_menu(menu_getSetUpForFirst);    
+                }
+                else{
+                    set_menu(menu_mainPage);
+                }
             }
+            break;
+        case menu_getSetUpForFirst:
             break;
         case menu_mainPage:
             break;

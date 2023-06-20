@@ -6,19 +6,22 @@
 #include "menu.h"
 #include "uart.h"
 #include "DHT11.h"
+#include "e2prom.h"
 #include "timTick.h"
 #include "time_out.h"
 #include "keypad_4x4.h"
 #include "heart_beat.h"
 
 char display_LCD[17];
-
+const char freeLine[17] = "                ";
 int main(void){
   
 
   sei(); //enable global interrupt
   
   tim1_init();
+
+  dataBase_init();
 
   menu_init();
 

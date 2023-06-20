@@ -9,6 +9,7 @@
 #include "uart.h"
 #include "main.h"
 #include "DHT11.h"
+#include "e2prom.h"
 #include "timTick.h"
 #include "keypad_4x4.h"
 #include "heart_beat.h"
@@ -25,6 +26,15 @@
 //     menu_changeClock,
 //     menu_setRtcAlarm,
 // }menuStat_t;
+
+typedef enum{
+    SetUpDataBase_MIN = 0,      
+    SetUpDataBase_MAX,      
+    SetUpDataBase_TIME,      
+}SetUpDataBaseStep_t;
+extern SetUpDataBaseStep_t SetUpDataBaseStep;
+extern setUp_t tmpSetUpDataBase;
+extern dataBaseSec_t setUpDataBase_stat;
 
 void menu_init(void);
 void menu_initPage(menuStat_t stat);

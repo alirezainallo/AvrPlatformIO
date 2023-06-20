@@ -13,9 +13,11 @@
 #include <avr/interrupt.h>
 
 extern char display_LCD[17];
+extern const char freeLine[17];
 
 typedef enum menuStat_tag{
     menu_starting = 0,
+    menu_getSetUpForFirst,
     menu_mainPage,
     menu_mainPage_Stat,
     menu_mainPage_Timer,

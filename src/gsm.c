@@ -20,7 +20,7 @@ void smsReceived(char *num, char *message, char *time){
     // LCD_String(",P");
     //process messages
     if(get_menuStat() == menu_processGsm){
-        LCD_String_xy(1,0,"                ");
+        LCD_String_xy(1,0,freeLine);
         sprintf(display, "%s,%d,%d,%d,%d", message, message[0], message[1], message[2], message[3]);
         LCD_String_xy(1,0, display);
     }
@@ -33,7 +33,7 @@ bool smsWaitTitleOrMessage = true;//title true, message false
 void GSM_lineProcess(char *line, size_t len){
     tgl();
     if(get_menuStat() == menu_processGsm){
-        LCD_String_xy(1,0,"                ");
+        LCD_String_xy(1,0,freeLine);
         LCD_String_xy(1,0, line);
     }
     if(memcmp(line, "+cmt:", 3) == 0){

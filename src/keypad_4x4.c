@@ -39,11 +39,102 @@ typedef enum{
 fill_time fill_tim = fill_hour;
 
 uint32_t number = 0;//for normal usage
+uint32_t tmp = 0;
 
 void keypad_kp_0_9_func (void)
 {
 	switch(get_menuStat()){
         case menu_starting:
+            break;
+        case menu_getSetUpForFirst:
+			switch (setUpDataBase_stat)
+            {
+                case SEC_HUMIDITY:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                        case SetUpDataBase_MAX:
+                            tmp = (number * 10) + get_keypad_value();
+							if(tmp <= 100){
+								number = tmp;
+							}
+							sprintf(display_LCD, "%d %c   ", number, '%');
+							LCD_String_xy(1, 0, display_LCD);
+                            break;
+                        case 2:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_TEMP:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_CO2:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_LIGHT:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_WATERING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_FERTILIZING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
             break;
         case menu_mainPage:
 			switch (get_keypad_value())
@@ -125,6 +216,93 @@ void keypad_kp_10_func (void) //kp A   //MENU_CHANGE_PF
 	switch(get_menuStat()){
         case menu_starting:
             break;
+        case menu_getSetUpForFirst:
+			LCD_String_xy(1, 0, freeLine);
+			number = 0;
+			switch (setUpDataBase_stat)
+            {
+                case SEC_HUMIDITY:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case 2:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_TEMP:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_CO2:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_LIGHT:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_WATERING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_FERTILIZING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            break;
         case menu_mainPage:
             break;
 		case menu_mainPage_Stat:
@@ -173,6 +351,91 @@ void keypad_kp_11_func (void) //kp B   //MENU_VIEW_DETALES   //set MOTOR_A PF
 	switch(get_menuStat()){
         case menu_starting:
             break;
+        case menu_getSetUpForFirst:
+			switch (setUpDataBase_stat)
+            {
+                case SEC_HUMIDITY:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case 2:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_TEMP:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_CO2:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_LIGHT:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_WATERING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_FERTILIZING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            break;
         case menu_mainPage:
             break;
 		case menu_mainPage_Stat:
@@ -216,6 +479,91 @@ void keypad_kp_12_func (void) //kp C   //MENU_RESET_PRODUCTS_NUM
 	switch(get_menuStat()){
         case menu_starting:
             break;
+        case menu_getSetUpForFirst:
+			switch (setUpDataBase_stat)
+            {
+                case SEC_HUMIDITY:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case 2:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_TEMP:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_CO2:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_LIGHT:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_WATERING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_FERTILIZING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            break;
         case menu_mainPage:
             break;
 		case menu_mainPage_Stat:
@@ -244,6 +592,103 @@ void keypad_kp_13_func (void) //kp D  //MENU_MAIN_PAGE
 {
 	switch(get_menuStat()){
         case menu_starting:
+			break;
+        case menu_getSetUpForFirst:
+			switch (setUpDataBase_stat)
+            {
+                case SEC_HUMIDITY:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+							dataBase_set_min(SEC_HUMIDITY, number);
+							SetUpDataBaseStep = SetUpDataBase_MAX;
+							set_menu(menu_getSetUpForFirst);
+                            break;
+                        case SetUpDataBase_MAX:
+							dataBase_set_max(SEC_HUMIDITY, number);
+							SetUpDataBaseStep = SetUpDataBase_TIME;
+							set_menu(menu_getSetUpForFirst);
+                            break;
+                        case SetUpDataBase_TIME:
+							// dataBase_set_alarm (SEC_HUMIDITY, number);
+							SetUpDataBaseStep  = SetUpDataBase_MIN;
+							setUpDataBase_stat = SEC_TEMP;
+							set_menu(menu_getSetUpForFirst);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_TEMP:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_CO2:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_LIGHT:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_WATERING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_FERTILIZING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+			number = 0;
+            break;
         case menu_mainPage:
             break;
 		case menu_mainPage_Stat:
@@ -266,6 +711,91 @@ void keypad_kp_14_func (void)
 {
 	switch(get_menuStat()){
         case menu_starting:
+            break;
+        case menu_getSetUpForFirst:
+			switch (setUpDataBase_stat)
+            {
+                case SEC_HUMIDITY:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case 2:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_TEMP:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_CO2:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_LIGHT:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_WATERING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_FERTILIZING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
             break;
         case menu_mainPage:
             break;
@@ -297,6 +827,91 @@ void keypad_kp_15_func (void)
 {
 	switch(get_menuStat()){
         case menu_starting:
+            break;
+        case menu_getSetUpForFirst:
+			switch (setUpDataBase_stat)
+            {
+                case SEC_HUMIDITY:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case 2:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_TEMP:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_CO2:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_LIGHT:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_WATERING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case SEC_FERTILIZING:
+                    switch (SetUpDataBaseStep)
+                    {
+                        case SetUpDataBase_MIN:
+                            break;
+                        case SetUpDataBase_MAX:
+                            break;
+                        case SetUpDataBase_TIME:
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
             break;
         case menu_mainPage:
             break;

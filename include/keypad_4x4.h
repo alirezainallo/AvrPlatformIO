@@ -37,6 +37,7 @@ and this example recommended(with use "LCD.h"):
 #include "main.h"
 #include "LCD.h"
 #include "menu.h"
+#include "e2prom.h"
 
 #define MAX_KEYPAD_ROW	4
 #define MAX_KEYPAD_COL	4
